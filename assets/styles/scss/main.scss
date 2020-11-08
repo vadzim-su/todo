@@ -1,0 +1,11 @@
+.error__text {
+  position: absolute;
+  display: none;
+  color: red;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.invalid {
+  border: 2px solid red;
+}
