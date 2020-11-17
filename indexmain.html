@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      href="./assets/images/logo-ico.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./assets/styles/css/main.css" />
+    <title>ToDo List</title>
+  </head>
+  <body>
+    <div class="container-fluid wrapper">
+      <nav class="navbar navbar-light bg-light">
+        
+        <div class="d-flex">
+          <img class="logo" src="./assets/images/logo-ico.ico" alt="">
+          <h1 class="title">ToDo List</h1>
+        </div>
+
+        <div class="d-flex">
+          <button type="button" class="btn btn-success mx-2" id="sort">
+            <i class="fas fa-long-arrow-alt-up"></i>
+            <i class="fas fa-sort-numeric-down"></i>
+          </button>
+        </div>
+
+        <div class="d-flex">
+          <button
+            type="button"
+            class="btn btn-success"
+            id="showModalButton"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            <i class="fas fa-plus"></i>
+            Add task
+          </button>
+
+          <div class="dropdown ml-2">
+            <button
+              class="btn btn-success"
+              type="button"
+              id="dropdownMenuSettings"
+              data-toggle="dropdown"
+            >
+              <i class="fas fa-cog"></i>
+            </button>
+
+            <div class="dropdown-menu p-2 dropdown-menu-right">
+              <div class="form-check form-check-inline">
+                <input
+                  id="inlineCheckbox1"
+                  type="checkbox"
+                  data-on='<i class="fas fa-sun"></i>'
+                  data-off='<i class="fas fa-moon"></i>'
+                  data-toggle="toggle"
+                  data-onstyle="light"
+                  data-offstyle="dark"
+                  data-style="border"
+                  
+                />
+                <label for="inlineCheckbox1" class="form-check-label"
+                  >Change theme</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <img id="flag" src="./assets/images/EN.svg" alt="">
+                <label for="flag" class="form-check-label"
+                  >Language</label
+                >
+              </div>
+          </div>
+        </div>
+      </nav>
+      <div class="d-flex justify-content-end col-12">
+        <a class="btn btn-secondary signIn" href="./index.html">Log out</a>
+      </div>
+
+
+
+      <div class="row justify-content-center">
+        <div class="col-10" id="allTasksList">
+          <h3 id="todoTasksNumber" class="my-2"></h3>
+
+          <ul
+            class="list-group flex-wrap justify-content-between"
+            id="currentTasks"
+          ></ul>
+
+          <hr />
+          <h3 id="completedTasksNumber" class="my-2"></h3>
+
+          <ul
+            class="list-group flex-wrap justify-content-between"
+            id="completedTasks"
+          ></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <img class="plus" src="./assets/images/plus-ico.ico" alt="">
+            <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form>
+              <div class="form-group row">
+                <label for="inputTitle" class="col-sm-2 col-form-label"
+                  >Title*</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputTitle"
+                    placeholder="title"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="inputText" class="col-sm-2 col-form-label"
+                  >Text*</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputText"
+                    placeholder="text"
+                    required
+                  />
+                </div>
+              </div>
+
+              <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">
+                    Priority*
+                  </legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gridRadios"
+                        id="Low"
+                        value="Low"
+                        placeholder="priority"
+                        required
+                      />
+                      <label class="form-check-label" for="Low"> Low </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gridRadios"
+                        id="Medium"
+                        value="Medium"
+                        placeholder="priority"
+                      />
+                      <label class="form-check-label" for="Medium">
+                        Medium
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gridRadios"
+                        id="High"
+                        value="High"
+                        placeholder="priority"
+                      />
+                      <label class="form-check-label" for="High"> High </label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="form-group row">
+                <div class="col-sm-12 text-center">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+
+                  <button
+                    type="submit"
+                    id="addTaskButton"
+                    class="btn btn-success"
+                  >
+                    Add task
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <span class="error__text">Complete full form</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://kit.fontawesome.com/aa7a31f950.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+    <script type="module" src="./assets/scripts/indexmain.js"></script>
+  </body>
+</html>
