@@ -2,6 +2,7 @@ const key = "TASKS";
 const currentUserKey = "CURRENT_USER";
 const currentUser = JSON.parse(localStorage.getItem(currentUserKey));
 const allTasks = [];
+const lists = document.querySelectorAll(".task-list");
 const modal = document.querySelector(".modal");
 const showModalButton = document.querySelector("#showModalButton");
 const oKButton = document.querySelector("#addTaskButton");
@@ -14,13 +15,13 @@ const sort = document.querySelector("#sort");
 const signIn = document.querySelector(".signIn");
 const todoTasksNumber = document.querySelector("#todoTasksNumber");
 const completedTasksNumber = document.querySelector("#completedTasksNumber");
-let theme = "light";
 const changeTheme = document.querySelector("[type='checkbox']");
 const flag = document.querySelector("#flag");
+const greeting = document.querySelector(".greeting");
 
+let theme = "light";
 let sortedTasks = [];
 let editId;
-let editTime;
 let index;
 
 getDataFromLocalStorage(key);
@@ -43,7 +44,6 @@ oKButton.addEventListener("click", (e) => {
 
     if (editId) {
       newTask.id = editId;
-      newTask.time = editTime;
       allTasks.splice(index, 1);
     }
 
@@ -95,6 +95,7 @@ function drawTasksList(tasks) {
 
   currentUserTasks.forEach((task) => {
     let newItem = addNewTask(task);
+    newItem.addEventListener("dragstart", drag);
     addBackgroundColor(newItem);
     if (task.status === "new") {
       todoTasksList.appendChild(newItem);
@@ -231,18 +232,24 @@ function removeRedBorder(input) {
 function getDataFromLocalStorage(key) {
   drawTaskNumbers();
   setTheme();
+
   if (localStorage.getItem(key)) {
     let savedTasksFromStorage = JSON.parse(localStorage.getItem(key));
     savedTasksFromStorage.forEach((task) => {
       allTasks.push(task);
     });
     drawTasksList(allTasks);
+    greetingUser();
   }
 }
 
 function sortArrayByDate() {
   sortedTasks = allTasks.reverse();
   return sortedTasks;
+}
+
+function greetingUser() {
+  greeting.innerHTML = "Hello, " + currentUser + "!";
 }
 
 function setTheme() {
@@ -324,7 +331,6 @@ allTasksList.addEventListener("click", (e) => {
       });
 
       editId = chosenTask.id;
-      editTime = chosenTask.time;
     }
     saveToLocalStorage(allTasks);
   }
@@ -358,58 +364,30 @@ flag.addEventListener("click", changeLanguage);
 
 // drag-n-drop
 
-todoTasksList.ondragover = allowDrop;
-completedTasksList.ondragover = allowDrop;
+todoTasksList.addEventListener("dragover", allowDrop);
+todoTasksList.addEventListener("drop", drop);
+completedTasksList.addEventListener("dragover", allowDrop);
+completedTasksList.addEventListener("drop", drop);
 
 function allowDrop(e) {
   e.preventDefault();
 }
 
-let taskItems = document.querySelectorAll(".task__item");
-taskItems.forEach((taskItem) => {
-  taskItem.ondragstart = drag;
-});
-
 function drag(e) {
   e.dataTransfer.setData("data-id", e.target.dataset.id);
-  e.dataTransfer.setData("content", e.target.textContent);
-  // console.log(e.target.dataset.id);
 }
-
-todoTasksList.ondrop = drop;
-completedTasksList.ondrop = drop;
 
 function drop(e) {
-  let arrList = [];
-  e.preventDefault();
-  let dataId = e.dataTransfer.getData("data-id");
-  let content = e.dataTransfer.getData("data-id");
-  if (this.id === "currentTasks") {
-    if (arrList.indexOf(content) == -1) {
-      arrList.push(content);
-    }
-  }
-  if (this.id === "completedTasks") {
-    if (arrList.indexOf(content) != -1) {
-      arrList.splice(arrList.indexOf(content), 1);
-    }
-  }
+  let dragedDataId = e.dataTransfer.getData("data-id");
+  let dragedTask = allTasks.find((task) => task.id === dragedDataId);
+  let listId = e.target.closest("ul").id;
 
-  this.appendChild(document.querySelector(`[data-id="${dataId}"]`));
+  if (listId === "currentTasks" && dragedTask.status === "completed") {
+    dragedTask.status = "new";
+  }
+  if (listId === "completedTasks" && dragedTask.status === "new") {
+    dragedTask.status = "completed";
+  }
+  saveToLocalStorage(allTasks);
+  drawTasksList(allTasks);
 }
-
-// function drop(e) {
-//   let itemParameter = e.dataTransfer.getData("data-id");
-//   console.log(itemParameter);
-//   let newStatusTask = document.querySelector(`[data-id="${itemParameter}"]`);
-//   console.log(newStatusTask);
-//   let newTask = allTasks.find((task) => task.id === newStatusTask.dataset.id);
-// if (newTask.status === "new") {
-//   newTask.status = "completed";
-// } else if ((newTask.status = "completed")) {
-//   newTask.status === "new";
-// }
-//   e.target.closest("ul").appendChild(newStatusTask);
-//   saveToLocalStorage(allTasks);
-//   drawTasksList(allTasks);
-// }

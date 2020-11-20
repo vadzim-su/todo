@@ -14,6 +14,10 @@
   margin-bottom: 10px;
 }
 
+.task__item {
+  cursor: all-scroll;
+}
+
 // Sign In & Sign Up Forms
 
 #bodyBg {
@@ -47,6 +51,10 @@
   position: relative;
 }
 
+.greeting {
+  margin-bottom: 0;
+}
+
 .login-card {
   padding: 30px 0;
 }
@@ -74,11 +82,15 @@
   font-size: 14px;
   color: #919aa3;
   margin-bottom: 12px;
-  // ????????????????????????
 }
 
 .text-reset {
   text-decoration: underline;
+}
+
+.validation-help {
+  color: #9ba89b;
+  font-size: 13px;
 }
 
 .avatar-block {
@@ -109,7 +121,6 @@ label[for="flag"] {
 
 .darkTheme {
   background-color: #495057;
-  background-color: #557655;
   color: #fff;
 
   & .btn-secondary {
@@ -139,4 +150,16 @@ label[for="flag"] {
   & .modal-title {
     color: #272525;
   }
+}
+
+.hide {
+  display: none !important;
+}
+
+.hovered {
+  background-color: #d1d8e2;
+}
+
+.task-list {
+  min-height: 50px;
 }

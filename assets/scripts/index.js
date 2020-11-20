@@ -4,6 +4,7 @@ const currentUserKey = "CURRENT_USER";
 const allUsersKey = "USERS";
 const allUsers = JSON.parse(localStorage.getItem(allUsersKey));
 const errorText = document.querySelector("#errorText");
+let linkGH = "https://vadzim-su.github.io/todo/";
 
 loginButton.addEventListener("click", (e) => {
   e.preventDefault();

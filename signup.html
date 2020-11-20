@@ -50,7 +50,11 @@
                 <form action="#!" class="loginForm">
                   <div class="form-group">
                     <label for="username" class="col-form-label"
-                      >Enter username</label
+                      >Enter username
+                      <span class="validation-help"
+                        >(use all letters and numbers, '-' or '_', min 3
+                        chars)</span
+                      ></label
                     >
                     <input
                       type="text"
@@ -72,14 +76,17 @@
                   </div>
                   <div class="form-group mb-4">
                     <label for="password" class="col-form-label"
-                      >Enter password</label
-                    >
+                      >Enter password
+                      <span class="validation-help"
+                        >(use all letters and numbers, min 5 chars)</span
+                      >
+                    </label>
                     <input
                       type="password"
                       name="password"
                       id="password"
                       class="form-control"
-                      placeholder="***********"
+                      placeholder="********"
                     />
                   </div>
                   <div class="form-group mb-4">
@@ -91,7 +98,7 @@
                       name="passwordConfirm"
                       id="passwordConfirm"
                       class="form-control"
-                      placeholder="***********"
+                      placeholder="********"
                     />
                   </div>
                   <span id="errorText"></span>

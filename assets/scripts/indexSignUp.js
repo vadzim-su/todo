@@ -4,7 +4,6 @@ const signUp = document.querySelector("#signup");
 const modalInputs = document.querySelectorAll(".form-control");
 const errorText = document.querySelector("#errorText");
 const allUsers = getUsersFromLocalStorage(key);
-console.log(allUsers);
 
 signUp.addEventListener("click", (e) => {
   e.preventDefault();
@@ -140,7 +139,7 @@ function showNotValidPassword() {
 function isValidEnteredData(username, email, password) {
   if (/^[a-zA-Z0-9_-]{3,}/.test(username)) {
     if (/^[a-zA-Z0-9._-]+@[a-z]+\.[a-z]{2,3}$/.test(email)) {
-      if (/^[a-zA-Z0-9!_.@#$%^&]{5,}/.test(password)) {
+      if (/^[a-zA-Z0-9]{5,}/.test(password)) {
         return true;
       } else {
         errorText.innerHTML = "Your password is not valid";

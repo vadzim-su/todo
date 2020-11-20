@@ -89,7 +89,8 @@
           </div>
         </div>
       </nav>
-      <div class="d-flex justify-content-end col-12">
+      <div class="d-flex justify-content-between col-12">
+        <h2 class="greeting"></h2>
         <a class="btn btn-secondary signIn" href="./index.html">Log out</a>
       </div>
 
@@ -98,17 +99,16 @@
       <div class="row justify-content-center">
         <div class="col-10" id="allTasksList">
           <h3 id="todoTasksNumber" class="my-2"></h3>
-
           <ul
-            class="list-group flex-wrap justify-content-between"
+            class="list-group flex-wrap justify-content-between task-list"
             id="currentTasks"
           ></ul>
 
           <hr />
-          <h3 id="completedTasksNumber" class="my-2"></h3>
 
+          <h3 id="completedTasksNumber" class="my-2"></h3>
           <ul
-            class="list-group flex-wrap justify-content-between"
+            class="list-group flex-wrap justify-content-between task-list"
             id="completedTasks"
           ></ul>
         </div>
