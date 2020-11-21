@@ -1,5 +1,6 @@
 const key = "TASKS";
 const currentUserKey = "CURRENT_USER";
+const currentLanguageKey = "CURRENT_LANGUAGE";
 const currentUser = JSON.parse(localStorage.getItem(currentUserKey));
 const allTasks = [];
 const lists = document.querySelectorAll(".task-list");
@@ -16,10 +17,11 @@ const signIn = document.querySelector(".signIn");
 const todoTasksNumber = document.querySelector("#todoTasksNumber");
 const completedTasksNumber = document.querySelector("#completedTasksNumber");
 const changeTheme = document.querySelector("[type='checkbox']");
-const flag = document.querySelector("#flag");
 const greeting = document.querySelector(".greeting");
-
+const flag = document.querySelector("#flag");
+let words = document.querySelectorAll("[data-lng]");
 let theme = "light";
+let currentLanguage = "english";
 let sortedTasks = [];
 let editId;
 let index;
@@ -62,6 +64,80 @@ modalInputs.forEach((input) => {
   input.addEventListener("focus", hideRedBorderWrapper, false);
 });
 
+// drag-n-drop
+
+todoTasksList.addEventListener("dragover", allowDrop);
+todoTasksList.addEventListener("drop", drop);
+completedTasksList.addEventListener("dragover", allowDrop);
+completedTasksList.addEventListener("drop", drop);
+
+//change language
+
+flag.addEventListener("click", changeLanguage);
+
+// Buttons edit/delete/complete clicked
+
+allTasksList.addEventListener("click", (e) => {
+  editId = null;
+  const tableTask = e.target.closest("li");
+  if (tableTask) {
+    const chosenTask = allTasks.find((task) => {
+      return task.id === tableTask.getAttribute("data-id");
+    });
+    index = allTasks.indexOf(chosenTask);
+
+    if (e.target.classList.contains("complete")) {
+      chosenTask.status = "completed";
+      drawTasksList(allTasks);
+    }
+
+    if (e.target.classList.contains("delete")) {
+      allTasks.splice(index, 1);
+      drawTasksList(allTasks);
+    }
+
+    if (e.target.classList.contains("edit")) {
+      showHideModal();
+      modalInputs[0].value = chosenTask.title;
+      modalInputs[1].value = chosenTask.text;
+
+      let modalPriorityRadiobuttons = document.querySelectorAll(
+        `[name="gridRadios"]`
+      );
+      modalPriorityRadiobuttons.forEach((radiobutton) => {
+        if (radiobutton.value === chosenTask.priority) {
+          radiobutton.checked = true;
+        }
+      });
+
+      editId = chosenTask.id;
+    }
+    saveToLocalStorage(allTasks);
+  }
+});
+
+// sorting tasks
+
+sort.addEventListener("click", (e) => {
+  e.preventDefault();
+  sortArrayByDate(sortedTasks);
+  drawTasksList(sortedTasks);
+});
+
+// change theme
+
+changeTheme.addEventListener(
+  "change",
+  $(function () {
+    $(changeTheme).change(function () {
+      document.body.classList.toggle("darkTheme");
+      theme = document.body.classList.contains("darkTheme") ? "dark" : "light";
+      localStorage.setItem("CURRENT_THEME", JSON.stringify(theme));
+      drawTasksList(allTasks);
+    });
+  })
+);
+
 function createNewTask() {
   let date = new Date();
   let newTask = {
@@ -69,7 +145,7 @@ function createNewTask() {
     text: "",
   };
   Object.keys(newTask).forEach((value) => {
-    let field = document.querySelector(`[placeholder = '${value}']`);
+    let field = document.querySelector(`[name = '${value}']`);
     newTask[value] = field.value;
   });
 
@@ -101,12 +177,15 @@ function drawTasksList(tasks) {
       todoTasksList.appendChild(newItem);
     } else if (task.status === "completed") {
       newItem.querySelector(".dropdown-menu.p-2.flex-column").innerHTML = `
-    <button type="button" class="btn btn-danger w-100 delete">
+    <button type="button" class="btn btn-danger w-100 delete" data-lng="delete">
       Delete
     </button>`;
       completedTasksList.appendChild(newItem);
     }
   });
+  currentLanguage = JSON.parse(localStorage.getItem(currentLanguageKey));
+  words = document.querySelectorAll("[data-lng]");
+  setLanguage(words, currentLanguage);
   drawTaskNumbers();
 }
 
@@ -127,6 +206,7 @@ function addNewTask(task) {
     task.time,
     task.priority
   );
+
   return taskItem;
 }
 
@@ -136,9 +216,7 @@ function showHideModal() {
 
 function clearForm(inputs) {
   inputs.forEach((input) => (input.value = ""));
-  let modalCheckbox = document.querySelector(
-    `[placeholder = "priority"]:checked`
-  );
+  let modalCheckbox = document.querySelector(`[name="gridRadios"]:checked`);
   if (modalCheckbox) {
     modalCheckbox.checked = false;
   }
@@ -146,9 +224,7 @@ function clearForm(inputs) {
 
 function isValidForm(inputs) {
   const inputValues = [];
-  const modalCheckbox = document.querySelector(
-    `[placeholder = "priority"]:checked`
-  );
+  const modalCheckbox = document.querySelector(`[name="gridRadios"]:checked`);
 
   inputs.forEach((input) => {
     if (input.value) {
@@ -171,7 +247,8 @@ function drawSingleTask(title, text, time, priority) {
   <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1 task__title">${title}</h5>
     <div>
-      <small class="mr-2 task__priority">${priority} priority</small>
+      <small class="task__priority" data-lng = "priority">priority</small>
+      <small class="mr-2 task__priority" data-lng = ${priority}>${priority}</small>
       <small class="task__date">${time}</small>
     </div>
   </div>
@@ -187,13 +264,13 @@ function drawSingleTask(title, text, time, priority) {
     <i class="fas fa-ellipsis-v"></i>
   </button>
   <div class="dropdown-menu p-2 flex-column">
-    <button type="button" class="btn btn-success complete w-100">
+    <button type="button" class="btn btn-success complete w-100" data-lng="complete">
       Complete
     </button>
-    <button type="button" class="btn btn-info w-100 my-2 edit">
+    <button type="button" class="btn btn-info w-100 my-2 edit" data-lng="edit">
       Edit
     </button>
-    <button type="button" class="btn btn-danger w-100 delete">
+    <button type="button" class="btn btn-danger w-100 delete" data-lng="delete">
       Delete
     </button>
   </div>
@@ -230,8 +307,12 @@ function removeRedBorder(input) {
 }
 
 function getDataFromLocalStorage(key) {
-  drawTaskNumbers();
   setTheme();
+  greetingUser();
+  currentLanguage = JSON.parse(localStorage.getItem(currentLanguageKey));
+
+  setLanguage(words, currentLanguage);
+  drawTaskNumbers();
 
   if (localStorage.getItem(key)) {
     let savedTasksFromStorage = JSON.parse(localStorage.getItem(key));
@@ -239,7 +320,6 @@ function getDataFromLocalStorage(key) {
       allTasks.push(task);
     });
     drawTasksList(allTasks);
-    greetingUser();
   }
 }
 
@@ -249,7 +329,7 @@ function sortArrayByDate() {
 }
 
 function greetingUser() {
-  greeting.innerHTML = "Hello, " + currentUser + "!";
+  greeting.innerHTML = `${currentUser}!`;
 }
 
 function setTheme() {
@@ -259,19 +339,19 @@ function setTheme() {
 
 function addBackgroundColor(taskLi) {
   let singleTask = allTasks.find((task) => task.id === taskLi.dataset.id);
-  if (singleTask.priority === "Low") {
+  if (singleTask.priority === "low") {
     if (document.body.classList.contains("darkTheme")) {
       taskLi.style.backgroundColor = "#557655";
     } else {
       taskLi.style.backgroundColor = "#90dc90";
     }
-  } else if (singleTask.priority === "Medium") {
+  } else if (singleTask.priority === "medium") {
     if (document.body.classList.contains("darkTheme")) {
       taskLi.style.backgroundColor = "#8f8f60";
     } else {
       taskLi.style.backgroundColor = "#eeeeaa";
     }
-  } else if (singleTask.priority === "High") {
+  } else if (singleTask.priority === "high") {
     if (document.body.classList.contains("darkTheme")) {
       taskLi.style.backgroundColor = "#805050";
     } else {
@@ -284,90 +364,42 @@ function drawTaskNumbers() {
   let todoTasks = allTasks.filter(
     (task) => task.user === currentUser && task.status === "new"
   );
-  todoTasksNumber.innerHTML = `ToDo (${todoTasks.length})`;
+  todoTasksNumber.innerHTML = `(${todoTasks.length})`;
   let completedTasks = allTasks.filter(
     (task) => task.user === currentUser && task.status === "completed"
   );
-  completedTasksNumber.innerHTML = `Comleted (${completedTasks.length})`;
+  completedTasksNumber.innerHTML = `(${completedTasks.length})`;
 }
+
+//change language functions
 
 function changeLanguage() {
-  flag.src = "../../assets/images/RU.svg";
+  currentLanguage = JSON.parse(localStorage.getItem(currentLanguageKey));
+
+  if (currentLanguage === "english") {
+    currentLanguage = "russian";
+  } else {
+    currentLanguage = "english";
+  }
+  words = document.querySelectorAll("[data-lng]");
+  setLanguage(words, currentLanguage);
+  saveLanguageToLocalStorage();
+  drawTasksList(allTasks);
 }
 
-// Buttons edit/delete/complete clicked
+function saveLanguageToLocalStorage() {
+  localStorage.setItem(currentLanguageKey, JSON.stringify(currentLanguage));
+}
 
-allTasksList.addEventListener("click", (e) => {
-  editId = null;
-  const tableTask = e.target.closest("li");
-  if (tableTask) {
-    const chosenTask = allTasks.find((task) => {
-      return task.id === tableTask.getAttribute("data-id");
-    });
-    index = allTasks.indexOf(chosenTask);
+function setLanguage(fields, language) {
+  fields.forEach((field) => {
+    fetch("../../translate.json")
+      .then((data) => data.json())
+      .then((data) => (field.innerHTML = data[language][field.dataset.lng]));
+  });
+}
 
-    if (e.target.classList.contains("complete")) {
-      chosenTask.status = "completed";
-      drawTasksList(allTasks);
-    }
-
-    if (e.target.classList.contains("delete")) {
-      allTasks.splice(index, 1);
-      drawTasksList(allTasks);
-    }
-
-    if (e.target.classList.contains("edit")) {
-      showHideModal();
-      modalInputs[0].value = chosenTask.title;
-      modalInputs[1].value = chosenTask.text;
-
-      let modalPriorityRadiobuttons = document.querySelectorAll(
-        `[name="gridRadios"]`
-      );
-      modalPriorityRadiobuttons.forEach((radiobutton) => {
-        if (radiobutton.value === chosenTask.priority) {
-          radiobutton.setAttribute("checked", "true");
-        }
-      });
-
-      editId = chosenTask.id;
-    }
-    saveToLocalStorage(allTasks);
-  }
-});
-
-// sorting
-
-sort.addEventListener("click", (e) => {
-  e.preventDefault();
-  sortArrayByDate(sortedTasks);
-  drawTasksList(sortedTasks);
-});
-
-// change theme
-
-changeTheme.addEventListener(
-  "change",
-  $(function () {
-    $(changeTheme).change(function () {
-      document.body.classList.toggle("darkTheme");
-      theme = document.body.classList.contains("darkTheme") ? "dark" : "light";
-      localStorage.setItem("CURRENT_THEME", JSON.stringify(theme));
-      drawTasksList(allTasks);
-    });
-  })
-);
-
-//change language
-
-flag.addEventListener("click", changeLanguage);
-
-// drag-n-drop
-
-todoTasksList.addEventListener("dragover", allowDrop);
-todoTasksList.addEventListener("drop", drop);
-completedTasksList.addEventListener("dragover", allowDrop);
-completedTasksList.addEventListener("drop", drop);
+// drag-n-drop functions
 
 function allowDrop(e) {
   e.preventDefault();

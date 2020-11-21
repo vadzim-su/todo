@@ -1,0 +1,42 @@
+{
+  "english": {
+    "log-out": "Log out",
+    "priority": "Priority",
+    "to-do": "ToDo",
+    "add": "Add task",
+    "completed": "Completed",
+    "change-theme": "Change theme",
+    "change-language": "Change language",
+    "hello": "Hello,",
+    "delete": "Delete",
+    "complete": "Complete",
+    "edit": "Edit",
+    "title": "Title*",
+    "text": "Text*",
+    "low": "low",
+    "medium": "medium",
+    "high": "high",
+    "close": "Close",
+    "not full": "Complete full form"
+  },
+  "russian": {
+    "log-out": "Выйти",
+    "priority": "Приоритет",
+    "to-do": "Выполнить",
+    "add": "Добавить задачу",
+    "completed": "Выполнено",
+    "change-theme": "Сменить тему",
+    "change-language": "Сменить язык",
+    "hello": "Привет,",
+    "delete": "Удалить",
+    "complete": "Выполнить",
+    "edit": "Изменить",
+    "title": "Тема*",
+    "text": "Описание*",
+    "low": "низкий",
+    "medium": "средний",
+    "high": "высокий",
+    "close": "Закрыть",
+    "not full": "Заполните форму полностью"
+  }
+}

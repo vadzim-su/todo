@@ -28,9 +28,8 @@
   <body>
     <div class="container-fluid wrapper">
       <nav class="navbar navbar-light bg-light">
-        
         <div class="d-flex">
-          <img class="logo" src="./assets/images/logo-ico.ico" alt="">
+          <img class="logo" src="./assets/images/logo-ico.ico" alt="" />
           <h1 class="title">ToDo List</h1>
         </div>
 
@@ -50,7 +49,7 @@
             data-target="#exampleModal"
           >
             <i class="fas fa-plus"></i>
-            Add task
+            <span data-lng="add">Add task</span>
           </button>
 
           <div class="dropdown ml-2">
@@ -74,31 +73,44 @@
                   data-onstyle="light"
                   data-offstyle="dark"
                   data-style="border"
-                  
                 />
-                <label for="inlineCheckbox1" class="form-check-label"
+                <label
+                  for="inlineCheckbox1"
+                  class="form-check-label"
+                  data-lng="change-theme"
                   >Change theme</label
                 >
               </div>
               <div class="form-check form-check-inline">
-                <img id="flag" src="./assets/images/EN.svg" alt="">
-                <label for="flag" class="form-check-label"
-                  >Language</label
+                <img id="flag" src="./assets/images/global.svg" alt="" />
+                <label
+                  for="flag"
+                  class="form-check-label"
+                  data-lng="change-language"
+                  >Choose language</label
                 >
               </div>
+            </div>
           </div>
         </div>
       </nav>
-      <div class="d-flex justify-content-between col-12">
-        <h2 class="greeting"></h2>
-        <a class="btn btn-secondary signIn" href="./index.html">Log out</a>
+      <div class="d-flex justify-content-between col-12 log-out-block">
+        <div class="greeting-block">
+          <h2 class="hello" data-lng="hello">Hello,</h2>
+          <span class="greeting"></span>
+        </div>
+        <a
+          class="btn btn-secondary signIn"
+          data-lng="log-out"
+          href="./index.html"
+          >Log out</a
+        >
       </div>
-
-
 
       <div class="row justify-content-center">
         <div class="col-10" id="allTasksList">
-          <h3 id="todoTasksNumber" class="my-2"></h3>
+          <h3 class="task__title" class="my-2" data-lng="to-do">ToDo</h3>
+          <span id="todoTasksNumber"></span>
           <ul
             class="list-group flex-wrap justify-content-between task-list"
             id="currentTasks"
@@ -106,7 +118,10 @@
 
           <hr />
 
-          <h3 id="completedTasksNumber" class="my-2"></h3>
+          <h3 class="task__title" class="my-2" data-lng="completed">
+            Comleted
+          </h3>
+          <span id="completedTasksNumber"></span>
           <ul
             class="list-group flex-wrap justify-content-between task-list"
             id="completedTasks"
@@ -120,8 +135,10 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <img class="plus" src="./assets/images/plus-ico.ico" alt="">
-            <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+            <img class="plus" src="./assets/images/plus-ico.ico" alt="" />
+            <h5 class="modal-title" id="exampleModalLabel" data-lng="add">
+              Add task
+            </h5>
             <button type="button" class="close" data-dismiss="modal">
               <span>&times;</span>
             </button>
@@ -130,7 +147,10 @@
           <div class="modal-body">
             <form>
               <div class="form-group row">
-                <label for="inputTitle" class="col-sm-2 col-form-label"
+                <label
+                  for="inputTitle"
+                  class="col-sm-2 col-form-label"
+                  data-lng="title"
                   >Title*</label
                 >
                 <div class="col-sm-10">
@@ -138,14 +158,17 @@
                     type="text"
                     class="form-control"
                     id="inputTitle"
-                    placeholder="title"
+                    name="title"
                     required
                   />
                 </div>
               </div>
 
               <div class="form-group row">
-                <label for="inputText" class="col-sm-2 col-form-label"
+                <label
+                  for="inputText"
+                  class="col-sm-2 col-form-label"
+                  data-lng="text"
                   >Text*</label
                 >
                 <div class="col-sm-10">
@@ -153,7 +176,7 @@
                     type="text"
                     class="form-control"
                     id="inputText"
-                    placeholder="text"
+                    name="text"
                     required
                   />
                 </div>
@@ -161,7 +184,10 @@
 
               <fieldset class="form-group">
                 <div class="row">
-                  <legend class="col-form-label col-sm-2 pt-0">
+                  <legend
+                    class="col-form-label col-sm-2 pt-0"
+                    data-lng="priority"
+                  >
                     Priority*
                   </legend>
                   <div class="col-sm-10">
@@ -170,25 +196,12 @@
                         class="form-check-input"
                         type="radio"
                         name="gridRadios"
-                        id="Low"
-                        value="Low"
-                        placeholder="priority"
+                        id="low"
+                        value="low"
                         required
                       />
-                      <label class="form-check-label" for="Low"> Low </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="gridRadios"
-                        id="Medium"
-                        value="Medium"
-                        placeholder="priority"
-                      />
-                      <label class="form-check-label" for="Medium">
-                        Medium
+                      <label class="form-check-label" for="low" data-lng="low">
+                        low
                       </label>
                     </div>
 
@@ -197,11 +210,33 @@
                         class="form-check-input"
                         type="radio"
                         name="gridRadios"
-                        id="High"
-                        value="High"
-                        placeholder="priority"
+                        id="medium"
+                        value="medium"
                       />
-                      <label class="form-check-label" for="High"> High </label>
+                      <label
+                        class="form-check-label"
+                        for="medium"
+                        data-lng="medium"
+                      >
+                        medium
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="gridRadios"
+                        id="high"
+                        value="high"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="high"
+                        data-lng="high"
+                      >
+                        high
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -213,6 +248,7 @@
                     type="button"
                     class="btn btn-secondary"
                     data-dismiss="modal"
+                    data-lng="close"
                   >
                     Close
                   </button>
@@ -221,6 +257,7 @@
                     type="submit"
                     id="addTaskButton"
                     class="btn btn-success"
+                    data-lng="add"
                   >
                     Add task
                   </button>
@@ -228,11 +265,15 @@
               </div>
             </form>
 
-            <span class="error__text">Complete full form</span>
+            <span class="error__text" data-lng="not full"
+              >Complete full form</span
+            >
           </div>
         </div>
       </div>
     </div>
+
+    <script src="./translate.json"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

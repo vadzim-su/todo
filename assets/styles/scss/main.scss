@@ -51,8 +51,24 @@
   position: relative;
 }
 
-.greeting {
+.greeting-block {
+  display: flex;
+  align-items: baseline;
+}
+
+.log-out-block {
+  margin-bottom: 20px;
+}
+
+.hello {
   margin-bottom: 0;
+}
+
+.greeting {
+  line-height: 1;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-left: 10px;
 }
 
 .login-card {
@@ -68,6 +84,10 @@
 
 .title {
   margin-left: 15px;
+}
+
+.task__title {
+  display: inline-block;
 }
 
 .plus {
@@ -163,3 +183,50 @@ label[for="flag"] {
 .task-list {
   min-height: 50px;
 }
+
+// const translation = {
+//   en: {
+//     "log-out": "Log out",
+//     priority: "Priority",
+//     "to-do": "ToDo",
+//     add: "Add task",
+//     completed: "Completed",
+//     "change-theme": "Change theme",
+//     "change-language": "Change language",
+//     hello: "Hello,",
+//     delete: "Delete",
+//     complete: "Complete",
+//     edit: "Edit",
+//     "add-task": "Add task",
+//     title: "Title*",
+//     text: "Text*",
+//     low: "Low",
+//     medium: "Medium",
+//     high: "High",
+//     close: "Close",
+//     add: "Add",
+//     "not full": "Complete full form",
+//   },
+//   ru: {
+//     "log-out": "Выйти",
+//     priority: "Приоритет",
+//     "to-do": "Выполнить",
+//     add: "Добавить задачу",
+//     completed: "Выполнено",
+//     "change-theme": "Сменить тему",
+//     "change-language": "Сменить язык",
+//     hello: "Привет,",
+//     delete: "Удалить",
+//     complete: "Выполнить",
+//     edit: "Изменить",
+//     "add-task": "Добавить задачу",
+//     title: "Тема*",
+//     text: "Описание*",
+//     low: "Низкий",
+//     medium: "Средний",
+//     high: "Высокий",
+//     close: "Закрыть",
+//     add: "Добавить",
+//     "not full": "Заполните форму полностью",
+//   },
+// };
