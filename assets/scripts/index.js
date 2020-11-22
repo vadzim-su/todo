@@ -4,7 +4,6 @@ const currentUserKey = "CURRENT_USER";
 const allUsersKey = "USERS";
 const allUsers = JSON.parse(localStorage.getItem(allUsersKey));
 const errorText = document.querySelector("#errorText");
-let linkGH = "https://vadzim-su.github.io/todo/";
 
 loginButton.addEventListener("click", (e) => {
   e.preventDefault();
@@ -19,7 +18,7 @@ loginButton.addEventListener("click", (e) => {
           currentUserKey,
           JSON.stringify(currentUser.username)
         );
-        location.href = "../../indexmain.html";
+        location.href = "https://vadzim-su.github.io/todo/indexmain.html";
       } else {
         showErrorText("Wrong password");
       }

@@ -19,7 +19,7 @@ function signUpNewUser(inputs) {
           isValidEnteredData(inputs[0].value, inputs[1].value, inputs[2].value)
         ) {
           saveUserToLocalStorage(newUser);
-          location.href = "../../indexmain.html";
+          location.href = "https://vadzim-su.github.io/todo/indexmain.html";
         }
       } else {
         showExistingUser(allUsers, newUser);

@@ -393,7 +393,7 @@ function saveLanguageToLocalStorage() {
 
 function setLanguage(fields, language) {
   fields.forEach((field) => {
-    fetch("../../translate.json")
+    fetch("https://vadzim-su.github.io/todo/translate.json")
       .then((data) => data.json())
       .then((data) => (field.innerHTML = data[language][field.dataset.lng]));
   });
